@@ -122,7 +122,7 @@ class Graph
   end
 end
 
-POINTS = 300
+POINTS = 100
 
 PARAMETER_GRAPHS = {
   s: {
@@ -151,16 +151,19 @@ end
 def create_graphs(groups)
   groups.times.map do |n|
     Hash[PARAMETER_GRAPHS.map do |p, config|
-      [p, Graph.new(config[:label], 300, graph_window(n, p), config[:axes])]
+      [p, Graph.new(config[:label], POINTS, graph_window(n, p), config[:axes])]
     end]
   end
 end
 
 def tick(args)
+  dwell_time = 1.seconds
+  move_time = 2.seconds
+
   @platforms ||= [
-    Platform.new(200, 880, 600, 600, 200, 50, 2.seconds, 2.seconds, [:identity]),
-    Platform.new(200, 880, 400, 400, 200, 50, 2.seconds, 2.seconds, [:raised_cube]),
-    Platform.new(200, 880, 200, 200, 200, 50, 2.seconds, 2.seconds, [:raised_quintic])
+    Platform.new(200, 880, 600, 600, 200, 50, dwell_time, move_time, [:identity]),
+    Platform.new(200, 880, 400, 400, 200, 50, dwell_time, move_time, [:raised_cube]),
+    Platform.new(200, 880, 200, 200, 200, 50, dwell_time, move_time, [:raised_quintic])
   ]
 
   @graphs ||= create_graphs(3)
